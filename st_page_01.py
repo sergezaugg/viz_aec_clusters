@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 # from sklearn.cluster import DBSCAN
 from sklearn.utils import shuffle
-from utils import apply_dbscan_clustering, load_reduced_features
+from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data
 
 # initialize session state 
 if 'aaa' not in ss:
@@ -28,6 +28,18 @@ impath = "spectrogram_images"
 
 path_features = os.path.join("extracted_features/features_reduced_2.npz")
 
+path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
+
+
+
+
+df_meta = load_meta_data(path = path_meta_data)
+
+# df_meta.shape
+
+
+
+
 
 feat, filnam = load_reduced_features(path = path_features)
 # feat.shape
@@ -40,25 +52,28 @@ df = apply_dbscan_clustering(x = feat, labels = filnam, eps = 0.18, min_samples 
 
 all_availabel_clusters = df['cluster_id'].value_counts().index
 
-max_clust_size = 50
+max_clust_size = 200
 sel_2 = df['cluster_id'].value_counts() <= max_clust_size
 
 
 # exclude some very large clusters 
 selected_clusters = all_availabel_clusters[sel_2]
-all_availabel_clusters.shape
-selected_clusters.shape
+# all_availabel_clusters.shape
+# selected_clusters.shape
 
 
-selected_cluster_id = st.selectbox(label = "select a cluster id", options = selected_clusters )
+# selected_cluster_id = st.selectbox(label = "select a cluster id", options = selected_clusters )
+selected_cluster_id = st.select_slider(label = "select a cluster id", options = selected_clusters )
+
+
 # selected_cluster_id = 6
 
 df_sel = df[df['cluster_id']==selected_cluster_id]
-df_sel = df_sel.iloc[0:100]
+# df_sel = df_sel.iloc[0:100]
 
 
 selected_images_files = df_sel['file_name']
-st.text(selected_images_files.shape)
+# st.text(selected_images_files.shape)
 # st.text(selected_images_files)
 
 

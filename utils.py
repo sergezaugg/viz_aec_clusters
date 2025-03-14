@@ -10,6 +10,11 @@ import plotly.express as px
 from sklearn.cluster import DBSCAN
 
 
+# @st.cache_data
+@st.cache_resource
+def load_meta_data(path):
+    df_meta = pd.read_pickle(path)
+    return(df_meta)
 
 
 @st.cache_data
