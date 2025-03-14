@@ -40,7 +40,17 @@ df = apply_dbscan_clustering(x = feat, labels = filnam, eps = 0.18, min_samples 
 
 all_availabel_clusters = df['cluster_id'].value_counts().index
 
-selected_cluster_id = st.selectbox(label = "select a cluster id", options = all_availabel_clusters )
+max_clust_size = 50
+sel_2 = df['cluster_id'].value_counts() <= max_clust_size
+
+
+# exclude some very large clusters 
+selected_clusters = all_availabel_clusters[sel_2]
+all_availabel_clusters.shape
+selected_clusters.shape
+
+
+selected_cluster_id = st.selectbox(label = "select a cluster id", options = selected_clusters )
 # selected_cluster_id = 6
 
 df_sel = df[df['cluster_id']==selected_cluster_id]
