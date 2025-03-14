@@ -1,9 +1,6 @@
-# Can we really rank features according to their importance?
+# Visualize clusters of spectrograms 
 
-
-**ML SUMMARY:**
-S
-
+**SUMMARY:**
 
 **Figure 1**
 
@@ -21,6 +18,9 @@ S
 * Developed under Python 3.12.8
 * First make a venv, then:
 * pip install -r requirements.txt
+
+
+* pip install umap-learn
 
 **USAGE:**
 * Clone the repo
