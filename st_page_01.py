@@ -26,11 +26,13 @@ if 'bbb' not in ss:
 
 impath = "spectrogram_images"
 
-path_features = os.path.join("extracted_features/features_reduced.npz")
+path_features = os.path.join("extracted_features/features_reduced_2.npz")
 
 
 feat, filnam = load_reduced_features(path = path_features)
 # feat.shape
+
+
 df = apply_dbscan_clustering(x = feat, labels = filnam, eps = 0.18, min_samples = 10)
 
 # df.shape
@@ -47,18 +49,19 @@ df_sel = df_sel.iloc[0:100]
 
 selected_images_files = df_sel['file_name']
 st.text(selected_images_files.shape)
-st.text(selected_images_files)
+# st.text(selected_images_files)
 
 
 
 #  show images 
-num_cols = 7
+num_cols = 10
 grid = st.columns(num_cols)
 col = 0
 for ii, im_filname in enumerate(selected_images_files):
     try:
         with grid[col]:
-            st.image(os.path.join(impath, im_filname), caption=im_filname)
+            with st.container(border=True):
+                st.image(os.path.join(impath, im_filname), caption=im_filname[0:10])
         col += 1
         if ii % num_cols == (num_cols-1):
             col = 0
