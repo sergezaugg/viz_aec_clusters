@@ -16,8 +16,8 @@ if 'colors_2' not in ss:
 st.set_page_config(layout="wide")
 
 p01 = st.Page("st_page_01.py", title="Interactive")
-p02 = st.Page("st_page_02.py", title="Data credit and license")
-p03 = st.Page("st_page_03.py", title="Methods")
+p02 = st.Page("st_page_02.py", title="Data credit, licenses, details")
+p03 = st.Page("st_page_03.py", title="Prelim Methods")
 p04 = st.Page("st_page_04.py", title="Prelim Discussion")
 p05 = st.Page("st_page_05.py", title="References")
 
@@ -33,16 +33,16 @@ with st.sidebar:
         **SUMMARY:**
         Explore spectrogram clusters obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
         This page currently only features clustering with DBSCAN.
-        Feature extraction with auto-encoders and dimensionality reduction with UMAP is currently performed offline and still experimental. 
+        Feature extraction and dimensionality reduction was performed offline and is still experimental. 
          
         **CHALLENGE:**
-        The training and test images are unselected: the audio files were sequentially cut into pieces, thus
-        many clips contain only nuisance or background noise and calls are often truncated.
-        All XC-recordings have mp3 artifacts and some have high/low pass filtering artifacts. 
+        Training and test images are unselected: the audio files were sequentially cut into pieces, 
+        many contain nuisance or background noise.
+        Some recordings have high/low-pass filtering artifacts. 
                 
         **LONG-TERM OBJECTIVE:**
-        Once ready, this tool could contribute to automatically create pre-labelled dataset with a fine time-scale.
-        This could considerably speed-up the the manually confirmed annotation of a huge dataset taken from XC to train supervised models.                   
+        Once ready, this tool could contribute to automatically create pre-labelled dataset at a fine time-scale.
+        This could speed-up the annotation of datasets to train supervised models.                   
         ''')
     
     # st.title(""); st.title("")

@@ -65,8 +65,8 @@ with a01:
         c10, c11, c12 = st.columns([0.4, 0.15, 0.30])
         with c10:
             ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"] = st.slider(
-                label = "Range of cluster size to plot", min_value=1, max_value=500, 
-                value=(1, 200), step=1,)
+                label = "Range of cluster size to plot", min_value=1, max_value=300, 
+                value=(10, 200), step=1,)
         with c11:
             submitted_2 = st.form_submit_button("Submit")
         with c12: 
@@ -82,7 +82,6 @@ if len(selected_clusters) <= 1:
     st.text("Not enough clusters: Try to reduce 'Eps' or 'Range of cluster size' ")
 else:
     with st.container(border=True) : 
-        # selected_cluster_id = st.select_slider(label = "Select a cluster id", options = selected_clusters )
         selected_cluster_id = st.segmented_control(label = "Select a cluster ID (sorted smallest to largests)", options = selected_clusters )
 
     # selected_cluster_id = 6
@@ -105,11 +104,16 @@ else:
             print('shit')   
 
 with st.expander("Origin files of sounds"):
-    # 
-    all_files_in_cluster = selected_images_files.str.split('_segm_', expand=True).iloc[:,0]
-    files_counts = all_files_in_cluster.value_counts().reset_index()
-    files_counts.columns = ["File name", "Count"]
-    st.dataframe(data = files_counts, hide_index=True, width = 1000, height = 1000, column_order=("Count", "File name")) 
+    if len(selected_images_files) > 0:
+        all_files_in_cluster = selected_images_files.str.split('_segm_', expand=True).iloc[:,0]
+        files_counts = all_files_in_cluster.value_counts().reset_index()
+
+        nb_file_in_cluster   = len(all_files_in_cluster)
+        nb_pieces_in_cluster = len(files_counts)
+        st.text([nb_file_in_cluster, nb_pieces_in_cluster])
+
+        files_counts.columns = ["File name", "Count"]
+        st.dataframe(data = files_counts, hide_index=True, width = 1000, height = 500, column_order=("Count", "File name")) 
 
 
                
