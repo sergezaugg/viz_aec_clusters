@@ -5,98 +5,85 @@
 
 import os
 import streamlit as st
-import plotly.express as px
 from streamlit import session_state as ss
 import numpy as np
-import pandas as pd
-# from sklearn.cluster import DBSCAN
-from sklearn.utils import shuffle
-from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data
+# import pandas as pd
+from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data, constrain_cluster_size
 
 # initialize session state 
 if 'dbscan_params' not in ss:
     ss['dbscan_params'] = {
-        'eps' : 0.18,
+        'eps' : 0.20,
         'min_samples' : 10,
         'aaa' : 666,
         }
      
-
 if 'plot_par' not in ss:
     ss['plot_par'] = {
-        'min_clu_size' : 1,
+        'min_clu_size' : 10,
         'max_clu_size' : 200,
         }
+
+# define paths 
+impath = "spectrogram_images"
+path_features = os.path.join("extracted_features/features_reduced_2.npz")
+path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
+
+#--------------------------------
+# computational block 
+df_meta = load_meta_data(path = path_meta_data)
+# df_meta.shape
+feat, filnam = load_reduced_features(path = path_features)
+# feat.shape
+df = apply_dbscan_clustering(x = feat, labels = filnam, eps = ss['dbscan_params']["eps"], min_samples = ss['dbscan_params']["min_samples"])
+# df.shape
+selected_clusters = constrain_cluster_size(df_clusters = df, min_size = ss['plot_par']["min_clu_size"], max_size = ss['plot_par']["max_clu_size"])
 
 
 
 #--------------------------------
-# streamlit frontend starts here 
+# streamlit interactive frontend starts here 
 
-
-impath = "spectrogram_images"
-
-path_features = os.path.join("extracted_features/features_reduced_2.npz")
-
-path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
-
-
-
-
-df_meta = load_meta_data(path = path_meta_data)
-# df_meta.shape
-
-feat, filnam = load_reduced_features(path = path_features)
-# feat.shape
-
-df = apply_dbscan_clustering(x = feat, labels = filnam, eps = ss['dbscan_params']["eps"], min_samples = ss['dbscan_params']["min_samples"])
-# df.shape
-
+a00, a01 = st.columns([0.56, 0.4])
 
 # select DBSCAN params 
-with st.form("my_form"):
-   
-    ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.05,)
-    ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=1, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
+with a00:
+    with st.form("my_form_1"):
+        c00, c01, c02 = st.columns([0.4, 0.4, 0.2])
+        with c00:
+            ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.05,)
+        with c01:
+            ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=1, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
+        with c02:
+            submitted_1 = st.form_submit_button("Submit")
+        if submitted_1:
+            st.rerun()
 
-    submitted = st.form_submit_button("Submit new DBSCAN params")
-    if submitted:
-        st.rerun()
-
-
-ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"] = st.slider(
-    label = "max cluster size plotted", 
-    min_value=1, 
-    max_value=1000, 
-    value=(ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"]), 
-    step=1)
-
-
-# select the cluster to display 
-sel_1 = df['cluster_id'].value_counts() >= ss['plot_par']["min_clu_size"]
-sel_2 = df['cluster_id'].value_counts() <= ss['plot_par']["max_clu_size"]
-sel_3 = np.logical_and(sel_1, sel_2)
-
-
-all_availabel_clusters = df['cluster_id'].value_counts().index
-# exclude some very large clusters 
-selected_clusters = all_availabel_clusters[sel_3]
-
-
-st.text(len(all_availabel_clusters))
-st.text(len(selected_clusters))
-
+# select size of clusters to be displayed
+with a01:
+    with st.form("my_form_2"):
+        c10, c11, c12 = st.columns([0.4, 0.15, 0.30])
+        with c10:
+            ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"] = st.slider(
+                label = "Range of cluster size to plot", min_value=1, max_value=500, 
+                value=(1, 200), step=1,)
+        with c11:
+            submitted_2 = st.form_submit_button("Submit")
+        with c12: 
+            with st.container(border=True) : 
+                st.text('Nb clusters selected:')
+                st.text(len(selected_clusters))
+        if submitted_2:
+            st.rerun()
 
 if len(selected_clusters) <= 1:
     st.text("Not enough clusters: Eps is probably too high, try to reduce it ")
 else:
-    selected_cluster_id = st.select_slider(label = "select a cluster id", options = selected_clusters )
+    with st.container(border=True) : 
+        selected_cluster_id = st.select_slider(label = "Select a cluster id", options = selected_clusters )
     # selected_cluster_id = 6
     df_sel = df[df['cluster_id']==selected_cluster_id]
-    # df_sel = df_sel.iloc[0:100]
     selected_images_files = df_sel['file_name']
-    # st.text(selected_images_files.shape)
-    # st.text(selected_images_files)
     #  show images 
     num_cols = 10
     grid = st.columns(num_cols)
@@ -105,7 +92,7 @@ else:
         try:
             with grid[col]:
                 with st.container(border=True):
-                    st.image(os.path.join(impath, im_filname), caption=im_filname[0:10])
+                    st.image(os.path.join(impath, im_filname)) # , caption=im_filname[0:10])
             col += 1
             if ii % num_cols == (num_cols-1):
                 col = 0
@@ -115,3 +102,11 @@ else:
 
 
 
+
+
+
+# st.divider()
+
+# st.dataframe(df_meta)
+
+# st.dataframe(df_meta['lic'].value_counts())
