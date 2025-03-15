@@ -16,10 +16,12 @@ if 'colors_2' not in ss:
 st.set_page_config(layout="wide")
 
 p01 = st.Page("st_page_01.py", title="Interactive")
-p02 = st.Page("st_page_02.py", title="Data detes and licences")
+p02 = st.Page("st_page_02.py", title="Data credit and license")
 p03 = st.Page("st_page_03.py", title="Methods")
+p04 = st.Page("st_page_04.py", title="Prelim Discussion")
+p05 = st.Page("st_page_05.py", title="References")
 
-pg = st.navigation([p01, p02, p03])
+pg = st.navigation([p01, p02, p03, p04, p05])
 
 pg.run()
 
@@ -36,7 +38,7 @@ with st.sidebar:
         **CHALLENGE:**
         The training and test images are unselected: the audio files were sequentially cut into pieces, thus
         many clips contain only nuisance or background noise and calls are often truncated.
-        All XC-recorings have mp3 artifacts and some have high/low pass filtering artifacts. 
+        All XC-recordings have mp3 artifacts and some have high/low pass filtering artifacts. 
                 
         **LONG-TERM OBJECTIVE:**
         Once ready, this tool could contribute to automatically create pre-labelled dataset with a fine time-scale.

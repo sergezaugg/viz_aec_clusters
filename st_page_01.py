@@ -26,7 +26,7 @@ if 'plot_par' not in ss:
 
 # define paths 
 impath = "spectrogram_images"
-path_features = os.path.join("extracted_features/features_reduced_2.npz")
+path_features = os.path.join("extracted_features/features_reduced_4.npz")
 path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
 
 #--------------------------------
@@ -51,9 +51,9 @@ with a00:
     with st.form("my_form_1"):
         c00, c01, c02 = st.columns([0.4, 0.4, 0.2])
         with c00:
-            ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.05,)
+            ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.01,)
         with c01:
-            ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=1, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
+            ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=5, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
         with c02:
             submitted_1 = st.form_submit_button("Submit")
         if submitted_1:
@@ -76,11 +76,15 @@ with a01:
         if submitted_2:
             st.rerun()
 
+
+
 if len(selected_clusters) <= 1:
-    st.text("Not enough clusters: Eps is probably too high, try to reduce it ")
+    st.text("Not enough clusters: Try to reduce 'Eps' or 'Range of cluster size' ")
 else:
     with st.container(border=True) : 
-        selected_cluster_id = st.select_slider(label = "Select a cluster id", options = selected_clusters )
+        # selected_cluster_id = st.select_slider(label = "Select a cluster id", options = selected_clusters )
+        selected_cluster_id = st.segmented_control(label = "Select a cluster ID (sorted smallest to largests)", options = selected_clusters )
+
     # selected_cluster_id = 6
     df_sel = df[df['cluster_id']==selected_cluster_id]
     selected_images_files = df_sel['file_name']
@@ -98,15 +102,18 @@ else:
                 col = 0
             print('OK')    
         except:
-            print('shit')        
+            print('shit')   
+
+with st.expander("Origin files of sounds"):
+    # 
+    all_files_in_cluster = selected_images_files.str.split('_segm_', expand=True).iloc[:,0]
+    files_counts = all_files_in_cluster.value_counts().reset_index()
+    files_counts.columns = ["File name", "Count"]
+    st.dataframe(data = files_counts, hide_index=True, width = 1000, height = 1000, column_order=("Count", "File name")) 
+
+
+               
 
 
 
 
-
-
-# st.divider()
-
-# st.dataframe(df_meta)
-
-# st.dataframe(df_meta['lic'].value_counts())

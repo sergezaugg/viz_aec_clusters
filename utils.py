@@ -1,18 +1,18 @@
 #--------------------             
 # Author : Serge Zaugg
-# Description : Utility functions used by main.py and stmain.py
+# Description : Utility functions used by other scripts
 #--------------------
 
 import numpy as np
 import pandas as pd
 import streamlit as st
-import plotly.express as px
 from sklearn.cluster import DBSCAN
 
 
-# @st.cache_data
 @st.cache_resource
 def load_meta_data(path):
+    """
+    """
     df_meta = pd.read_pickle(path)
     return(df_meta)
 
@@ -49,6 +49,6 @@ def constrain_cluster_size(df_clusters, min_size, max_size):
     sel_1 = df_clusters['cluster_id'].value_counts() >= min_size
     sel_2 = df_clusters['cluster_id'].value_counts() <= max_size
     sel_3 = np.logical_and(sel_1, sel_2)
-    all_availabel_clusters = df_clusters['cluster_id'].value_counts().index
+    all_availabel_clusters = df_clusters['cluster_id'].value_counts(sort=True, ascending=True).index
     selected_clusters = all_availabel_clusters[sel_3]
     return(selected_clusters)
