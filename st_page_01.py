@@ -83,13 +83,9 @@ with a01:
 if len(selected_clusters) <= 1:
     st.text("Not enough clusters: Try to reduce 'Eps' or 'Range of cluster size' ")
 else:
-    with st.container(border=True) : 
-        selected_cluster_id = st.segmented_control(label = "Select a cluster ID (sorted smallest to largests)", options = selected_clusters )
-
-    # selected_cluster_id = 6
+    selected_cluster_id = st.segmented_control(label = "Select a cluster ID (sorted smallest to largests)", options = selected_clusters )
     df_sel = df[df['cluster_id']==selected_cluster_id]
     selected_images_files = df_sel['file_name']
-
     # sort to have clips from same image next by each other 
     selected_images_files = selected_images_files.sort_values(ascending=True)
     if len(selected_images_files) > 0:
@@ -98,30 +94,38 @@ else:
         all_files_in_cluster = ('XC' + selected_images_files.str.extract(r'_XC(.{,6})'))
         files_counts = all_files_in_cluster.value_counts().reset_index()
 
-        # show images 
-        num_cols = 10
-        grid = st.columns(num_cols)
-        col = 0
-        for ii, im_filname in enumerate(selected_images_files):
-            try:
-                with grid[col]:
-                    with st.container(border=True):
-                        st.image(os.path.join(impath, im_filname), use_container_width=True, caption= 'From  ' + all_files_in_cluster.iloc[ii].values)
-                col += 1
-                if ii % num_cols == (num_cols-1):
-                    col = 0
-                print('OK')    
-            except:
-                print('shit')   
-
         # add info 
-        nb_file_in_cluster   = len(files_counts )
-        nb_pieces_in_cluster = len(selected_images_files)
-        st.subheader(  'Cluster content: ' + str(nb_pieces_in_cluster) + ' clips from ' + str(nb_file_in_cluster) + ' separate mp3 files'   ) 
+        with st.container(border=True) : 
+            x00, x01 = st.columns([0.56, 0.4])    
+            with x00:
+                nb_file_in_cluster   = len(files_counts )
+                nb_pieces_in_cluster = len(selected_images_files)
+                st.text(  'Cluster content: ' + str(nb_pieces_in_cluster) + ' clips from ' + str(nb_file_in_cluster) + ' separate mp3 files'   ) 
+            with x01:
+                with st.expander("Detail table (click to expand)"):
+                    files_counts.columns = ["File name", "Count"]
+                    st.dataframe(data = files_counts, hide_index=True, width = 300, column_order=("Count", "File name")) 
+                    
+        # show images 
+        with st.container(border=True) : 
+            num_cols = 10
+            grid = st.columns(num_cols)
+            col = 0
+            for ii, im_filname in enumerate(selected_images_files):
+                try:
+                    with grid[col]:
+                        with st.container(border=True):
+                            st.image(os.path.join(impath, im_filname), use_container_width=True, caption= 'From  ' + all_files_in_cluster.iloc[ii].values)
+                    col += 1
+                    if ii % num_cols == (num_cols-1):
+                        col = 0
+                    print('OK')    
+                except:
+                    print('shit')   
 
-        with st.expander("Detail table (click to expand)"):
-            files_counts.columns = ["File name", "Count"]
-            st.dataframe(data = files_counts, hide_index=True, width = 300, column_order=("Count", "File name")) 
+        
+
+      
 
 
                
