@@ -25,7 +25,7 @@ if 'plot_par' not in ss:
 
 # define paths 
 impath = "spectrogram_images"
-path_features = os.path.join("extracted_features/features_reduced_4.npz")
+path_features = os.path.join("extracted_features/featuresreduced.npz")
 path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
 
 #--------------------------------
