@@ -1,7 +1,7 @@
 # CLUSTERING UNSELECTED BIO-ACOUSTIC RECORDINGS
 
 **SUMMARY:**
-* "UNDER CONSTRUCTION"
+* :construction:  Still under development :construction:
 * Spectrogram clusters were obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
 * This page currently only features the last step, clustering with DBSCAN.   
 * Once ready, this tool could automatically create pre-labelled dataset.

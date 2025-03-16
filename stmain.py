@@ -22,8 +22,6 @@ p04 = st.Page("st_page_04.py", title="Prelim discussion")
 p05 = st.Page("st_page_05.py", title="References")
 
 pg = st.navigation([p01, p02, p03, p04, p05])
-# pg = st.navigation([p02, p03, p04, p05])
-
 
 pg.run()
 
@@ -35,8 +33,6 @@ with st.sidebar:
         **SUMMARY:**
         Spectrogram clusters were obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
         This page currently only features the last step, clustering with DBSCAN.
-               
-        **LONG-TERM OBJECTIVE:**
         Once ready, this tool could automatically create pre-labelled dataset.
         This could speed-up the annotation of datasets to train supervised models.                   
         ''')
