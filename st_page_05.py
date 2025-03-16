@@ -5,7 +5,7 @@
 
 import streamlit as st
 
-c00, c01  = st.columns([0.6, 0.4])
+c00, c01  = st.columns([0.8, 0.1])
 with c00:
     with st.container(border=True) : 
         st.header("References")

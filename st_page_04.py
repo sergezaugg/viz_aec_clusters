@@ -8,9 +8,26 @@ import streamlit as st
 c00, c01  = st.columns([0.6, 0.4])
 with c00:
     with st.container(border=True) : 
-        st.header("Prelim Discussion")
-        st.markdown('''       
-        Coming later ...    
+        st.header("Preliminary Discussion")
+        st.markdown(''' 
+                          
+        <UNDER CONSTRUCTION>
+                    
+        **CHALLENGE:**
+        Training and test images are unselected: the audio files were sequentially cut into pieces, 
+        many contain nuisance or background noise.
+                    
+        * Current limitations
+            * Many clusters have an edge bias, i.e. sounds are located all at one side of clip. 
+            * This is probably due to zero padding during test set prediction of the 128*128 clips.  
+            * DBSCAN parameter are very sensitive: small change induce large differences in the quality of clustering
+                    
+        * Promising behavior
+            * Some visually consistent patterns coming from different mp3 recordings are clusters together 
+            *  
+                    
+
+
                                 
         ''')
        

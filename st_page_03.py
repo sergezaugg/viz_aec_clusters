@@ -8,8 +8,11 @@ import streamlit as st
 c00, c01  = st.columns([0.6, 0.4])
 with c00:
     with st.container(border=True) : 
-        st.header("METHODS MINI-SUMMARY")
-        st.markdown('''       
+        st.header("Methods in a nutshell")
+        st.markdown('''     
+
+            <UNDER CONSTRUCTION>
+
             The training set consists of 900 mp3 recording from Northern Europe that were downloaded from xeno-canto.
             The mp3s were down-sampled to 24'000 sps, then cut in 1.0 seconds pieces and transformed to spectrograms resulting in 6714 long grey-scale images of 128 x 1152 pixels (freq x time).
             These images were used to train convolutional auto-encoders under a de-noising regime with PyTorch.
@@ -22,7 +25,7 @@ with c00:
             In this dashboard, the final matrix can be interactively processed with DBSCAN and the square mini-images can be plotted grouped by clusters.        
                                 
             ''')
-        st.header("LINKS")
+        st.subheader("Links")
         st.page_link("https://umap-learn.readthedocs.io", label="UMAP")
         st.page_link("https://pytorch.org", label="PyTorch")
         st.page_link("https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html", label="DBSCAN")

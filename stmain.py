@@ -31,17 +31,13 @@ with st.sidebar:
     st.markdown(''':red[**Preliminary and still under development**]''')
     st.markdown(''' 
         **SUMMARY:**
-        Explore spectrogram clusters obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
-        This page currently only features clustering with DBSCAN.
-        Feature extraction and dimensionality reduction was performed offline and is still experimental. 
+        Spectrogram clusters were obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
+        This page currently only features the last step, clustering with DBSCAN.
          
-        **CHALLENGE:**
-        Training and test images are unselected: the audio files were sequentially cut into pieces, 
-        many contain nuisance or background noise.
-        Some recordings have high/low-pass filtering artifacts. 
+      
                 
         **LONG-TERM OBJECTIVE:**
-        Once ready, this tool could contribute to automatically create pre-labelled dataset at a fine time-scale.
+        Once ready, this tool could automatically create pre-labelled dataset.
         This could speed-up the annotation of datasets to train supervised models.                   
         ''')
     

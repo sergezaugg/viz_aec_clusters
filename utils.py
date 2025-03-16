@@ -46,9 +46,13 @@ def constrain_cluster_size(df_clusters, min_size, max_size):
     """
     """
     # select the cluster to display 
-    sel_1 = df_clusters['cluster_id'].value_counts() >= min_size
-    sel_2 = df_clusters['cluster_id'].value_counts() <= max_size
+
+    list_by_clu_size = df_clusters['cluster_id'].value_counts(sort=True, ascending=True)
+
+    sel_1 = list_by_clu_size >= min_size
+    sel_2 = list_by_clu_size <= max_size
     sel_3 = np.logical_and(sel_1, sel_2)
-    all_availabel_clusters = df_clusters['cluster_id'].value_counts(sort=True, ascending=True).index
+    
+    all_availabel_clusters = list_by_clu_size.index
     selected_clusters = all_availabel_clusters[sel_3]
     return(selected_clusters)
