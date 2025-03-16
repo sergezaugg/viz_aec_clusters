@@ -13,7 +13,6 @@ with c00:
         st.text("<UNDER CONSTRUCTION>")
 
         st.markdown('''     
-
             The training set consists of 900 mp3 recording from Northern Europe that were downloaded from xeno-canto.
             The mp3s were down-sampled to 24'000 sps, then cut in 1.0 seconds pieces and transformed to spectrograms resulting in 6714 long grey-scale images of 128 x 1152 pixels (freq x time).
             These images were used to train convolutional auto-encoders under a de-noising regime with PyTorch.

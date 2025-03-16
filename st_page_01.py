@@ -12,9 +12,8 @@ from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data
 # initialize session state 
 if 'dbscan_params' not in ss:
     ss['dbscan_params'] = {
-        'eps' : 0.20,
+        'eps' : 0.30,
         'min_samples' : 10,
-        'aaa' : 666,
         }
      
 if 'plot_par' not in ss:
