@@ -9,7 +9,7 @@ import os
 c00, c01  = st.columns([0.9, 0.1])
 with c00:
     with st.container(border=True) : 
-        st.header("Short discussion")
+        st.subheader("Short discussion")
 
         st.markdown('''                 
         * Audio files were sequentially cut into pieces, this is challenging because many contain only nuisance sounds or background noise.

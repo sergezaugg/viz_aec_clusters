@@ -78,7 +78,7 @@ with a01:
 
 
 if len(selected_clusters) <= 1:
-    st.text("Not enough clusters: Try to reduce 'Eps' or 'Range of cluster size' ")
+    st.text("Not enough clusters: Try to change 'eps' or 'min_sample' or 'Range of cluster size' ")
 else:
     selected_cluster_id = st.segmented_control(label = "Select a cluster ID (sorted smallest to largests)", options = selected_clusters )
     df_sel = df[df['cluster_id']==selected_cluster_id]

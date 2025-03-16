@@ -9,9 +9,9 @@ c00, c01  = st.columns([0.8, 0.1])
 with c00:
     with st.container(border=True) : 
         
-        st.header("References")
+        # st.header("References")
 
-        st.text("<UNDER CONSTRUCTION>")
+        # st.text("<UNDER CONSTRUCTION>")
         
         st.markdown('''In a previous collaboration, I learned hands-on that reducing dimensionality before unsupervised clustering helps a lot.''')
 
