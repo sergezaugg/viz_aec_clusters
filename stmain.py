@@ -15,13 +15,15 @@ if 'colors_2' not in ss:
 
 st.set_page_config(layout="wide")
 
-p01 = st.Page("st_page_01.py", title="Interactive")
+# p01 = st.Page("st_page_01.py", title="Interactive")
 p02 = st.Page("st_page_02.py", title="Data details")
 p03 = st.Page("st_page_03.py", title="Prelim methods")
 p04 = st.Page("st_page_04.py", title="Prelim discussion")
 p05 = st.Page("st_page_05.py", title="References")
 
-pg = st.navigation([p01, p02, p03, p04, p05])
+# pg = st.navigation([p01, p02, p03, p04, p05])
+pg = st.navigation([p02, p03, p04, p05])
+
 
 pg.run()
 
