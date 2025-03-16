@@ -13,15 +13,11 @@ df_meta = load_meta_data(path = path_meta_data)
 c00, c01  = st.columns([0.5, 0.2])
 with c00:
     with st.container(border=True) :   
-        st.header("xeno-canto data credits, licences and details")
-        st.markdown(''' 
-                    Many thanks to all the passionate people that shared their recordings via the xeno-canto platform.
-                    For a detailed list of recordists see the field "rec" in the table below.
-                    Each files has a Creative Commons license, see field "lic" in the table below.                
-                    ''')
-
-        st.page_link("https://xeno-canto.org/", label=":gray[Link to xeno-canto web]")
+        # st.header("xeno-canto data credits, licences and details")
+        st.subheader('''Many thanks to all the passionate people that shared their recordings via the xeno-canto platform.''')
+        st.text('''For a detailed list of recordists see the field "rec" in the table below. Each files has a Creative Commons license, see field "lic" in the table below.''')
         st.dataframe(df_meta, hide_index = True)
+        st.page_link("https://xeno-canto.org/", label=":gray[Link to xeno-canto web]")
         st.divider()
 
         c0, c1, c2 = st.columns([0.5, 0.3,0.3])
