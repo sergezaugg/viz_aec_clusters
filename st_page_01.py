@@ -72,8 +72,6 @@ with a01:
         with c12: 
             with st.container(border=True) : 
                 st.text('Nb clusters: ' + str(len(selected_clusters)))
-                # st.text([ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"]]) # debug 
-                # st.text()
         if submitted_2:
             st.rerun()
             
