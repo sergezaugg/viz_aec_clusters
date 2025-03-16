@@ -8,12 +8,14 @@ import streamlit as st
 c00, c01  = st.columns([0.8, 0.1])
 with c00:
     with st.container(border=True) : 
+        
         st.header("References")
+
+        st.text("<UNDER CONSTRUCTION>")
         
         st.markdown('''In a previous collaboration, I learned hands-on that reducing dimensionality before unsupervised clustering helps a lot.''')
 
         st.page_link("https://doi.org/10.1109/EFTF61992.2024.10722402", label=":red[D. Husmann; S. Zaugg; J. Morel : Detection and Analysis of Anthropogenic Patterns in a Phase-Stabilized Optical Fiber Network]")
-
 
         st.markdown('''A few interesting papers that inspired me''')
         

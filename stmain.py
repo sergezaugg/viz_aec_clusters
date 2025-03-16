@@ -33,9 +33,7 @@ with st.sidebar:
         **SUMMARY:**
         Spectrogram clusters were obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
         This page currently only features the last step, clustering with DBSCAN.
-         
-      
-                
+               
         **LONG-TERM OBJECTIVE:**
         Once ready, this tool could automatically create pre-labelled dataset.
         This could speed-up the annotation of datasets to train supervised models.                   
