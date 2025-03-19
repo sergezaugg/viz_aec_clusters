@@ -31,7 +31,7 @@ def load_reduced_features(path):
 def apply_dbscan_clustering(x , labels, eps = 0.2, min_samples = 10):
     """
     """
-    clu = DBSCAN(eps = eps, min_samples=min_samples, metric='euclidean', n_jobs = 4) 
+    clu = DBSCAN(eps = eps, min_samples=min_samples, metric='euclidean', n_jobs = 8) 
     cluster_ids = clu.fit_predict(x)
     # pd.Series(cluster_ids).value_counts()[0:10]
     df = pd.DataFrame({
