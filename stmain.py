@@ -6,6 +6,8 @@
 
 import streamlit as st
 from streamlit import session_state as ss
+# import umap
+
 
 # stuff shared across pages 
 if 'colors_1' not in ss:

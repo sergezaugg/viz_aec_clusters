@@ -7,7 +7,11 @@ import os
 import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
-from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data, constrain_cluster_size
+# from sklearn.preprocessing import StandardScaler
+# import umap.umap_ as umap
+# import umap
+from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data, constrain_cluster_size, reduce_dim_and_standardize
+
 
 # initialize session state 
 if 'dbscan_params' not in ss:
@@ -15,7 +19,13 @@ if 'dbscan_params' not in ss:
         'eps' : 0.30,
         'min_samples' : 10,
         }
-     
+
+if 'umap_params' not in ss:
+    ss['umap_params'] = {
+        'n_dims_red' : 32,
+        'n_neighbors' : 10,
+        }
+
 if 'plot_par' not in ss:
     ss['plot_par'] = {
         'min_clu_size' : 10,
@@ -24,14 +34,18 @@ if 'plot_par' not in ss:
 
 # define paths 
 impath = "spectrogram_images"
-path_features = os.path.join("extracted_features/features_reduced02.npz")
+# path_features = os.path.join("extracted_features/features_reduced02.npz")
+path_features = os.path.join("extracted_features/features_semi_reduced.npz")
 path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
+
 
 #--------------------------------
 # computational block 
 df_meta = load_meta_data(path = path_meta_data)
 # df_meta.shape
-feat, filnam = load_reduced_features(path = path_features)
+feat_semi, filnam = load_reduced_features(path = path_features)
+# feat_semi.shape
+feat = reduce_dim_and_standardize(X = feat_semi, n_neighbors = ss['umap_params']["n_neighbors"], n_dims_red = ss['umap_params']["n_dims_red"])
 # feat.shape
 df = apply_dbscan_clustering(x = feat, labels = filnam, eps = ss['dbscan_params']["eps"], min_samples = ss['dbscan_params']["min_samples"])
 # df.shape
@@ -41,18 +55,29 @@ selected_clusters = constrain_cluster_size(df_clusters = df, min_size = ss['plot
 #--------------------------------
 # streamlit interactive frontend starts here 
 
-a00, a01 = st.columns([0.56, 0.4])
+a99, a00, a01 = st.columns([0.56, 0.56, 0.4])
+
+# select UMAP params 
+with a99:
+    with st.form("my_form_0"):
+        c00, c02 = st.columns([0.4, 0.2])
+        with c00:
+            ss['umap_params']["n_dims_red"]  = st.slider(label = "UMAP target dim",  min_value=2, max_value=128, value=ss['umap_params']["n_dims_red"],  step=4,)
+            ss['umap_params']["n_neighbors"] = st.slider(label = "UMAP n_neighbors", min_value=2, max_value=100, value=ss['umap_params']["n_neighbors"], step=1,)
+        with c02:
+            submitted_0 = st.form_submit_button("Trigger UMAP (ultra slow !)")
+        if submitted_0:
+            st.rerun()
 
 # select DBSCAN params 
 with a00:
     with st.form("my_form_1"):
-        c00, c01, c02 = st.columns([0.4, 0.4, 0.2])
+        c00, c02 = st.columns([0.4, 0.2])
         with c00:
             ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.01,)
-        with c01:
             ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=2, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
         with c02:
-            submitted_1 = st.form_submit_button("Trigger DBSCAN computation")
+            submitted_1 = st.form_submit_button("Trigger DBSCAN (slow !)")
         if submitted_1:
             st.rerun()
 
