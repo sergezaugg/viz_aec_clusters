@@ -20,7 +20,7 @@ with c00:
             The mp3s down-sampled to 24'000 sps, then were cut in shorter 0.2 seconds pieces and transformed to spectrograms, which gave 60'560 grey-scale mini-images of 128 x 128 pixels (freq x time).
             These images were piped through the pre-trained encoder to obtain a feature matrix (60'560 rows x 1536 columns) 
             The feature matrix was dim-reduced with UMAP to the final matrix (60'560 x 32). 
-            In this dashboard, the final matrix can be interactively processed with DBSCAN and the square mini-images can be plotted grouped by clusters.        
+            In this dashboard, the final matrix can be interactively processed with DBSCAN and the mini-images can be plotted grouped by clusters.        
                                 
             ''')
         st.subheader("Links")

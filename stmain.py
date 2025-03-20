@@ -20,21 +20,20 @@ p02 = st.Page("st_page_02.py", title="Data info")
 p03 = st.Page("st_page_03.py", title="Methods")
 p04 = st.Page("st_page_04.py", title="Examples")
 p05 = st.Page("st_page_05.py", title="References")
+p06 = st.Page("st_page_06.py", title="Changes")
 
-pg = st.navigation([p01, p02, p03, p04, p05])
+pg = st.navigation([p01, p06, p02, p03, p04, p05])
 
 pg.run()
 
 with st.sidebar:
 
     st.header(''':red[**CLUSTERING UNSELECTED BIO-ACOUSTIC RECORDINGS**]''')
-    st.markdown(''':red[**Preliminary and still under development**]''')
+    st.markdown(''':red[**under development**]''')
     st.markdown(''' 
-        **SUMMARY:**
-        Spectrogram clusters were obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
-        This page currently only features the last step, clustering with DBSCAN.
-        Once ready, this tool could automatically create pre-labelled dataset.
-        This could speed-up the annotation of datasets to train supervised models.                   
+        Spectrogram clusters obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
+        This page only features dim reduction and clustering.
+        Once ready, this tool could pre-label dataset and boost the annotation of datasets for supervised models.                   
         ''')
     
     st.markdown(''':red[LINKS]''')

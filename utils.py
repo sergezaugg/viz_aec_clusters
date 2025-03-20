@@ -7,7 +7,9 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from sklearn.cluster import DBSCAN
-
+from sklearn.preprocessing import StandardScaler
+import umap.umap_ as umap
+# import umap
 
 @st.cache_resource
 def load_meta_data(path):
@@ -31,7 +33,7 @@ def load_reduced_features(path):
 def apply_dbscan_clustering(x , labels, eps = 0.2, min_samples = 10):
     """
     """
-    clu = DBSCAN(eps = eps, min_samples=min_samples, metric='euclidean', n_jobs = 4) 
+    clu = DBSCAN(eps = eps, min_samples=min_samples, metric='euclidean', n_jobs = 8) 
     cluster_ids = clu.fit_predict(x)
     # pd.Series(cluster_ids).value_counts()[0:10]
     df = pd.DataFrame({
@@ -56,3 +58,18 @@ def constrain_cluster_size(df_clusters, min_size, max_size):
     all_availabel_clusters = list_by_clu_size.index
     selected_clusters = all_availabel_clusters[sel_3]
     return(selected_clusters)
+
+
+@st.cache_data
+def reduce_dim_and_standardize(X, n_neighbors = 10, n_dims_red = 32):
+    # UMAP
+    reducer = umap.UMAP(n_neighbors = n_neighbors, n_components = n_dims_red, metric = 'euclidean')
+    reducer.fit(X[0:35000])
+    X_trans = reducer.transform(X)
+    # standardize
+    scaler = StandardScaler()
+    scaler.fit(X_trans)
+    X_scaled = scaler.transform(X_trans)
+    return(X_scaled)
+
+
