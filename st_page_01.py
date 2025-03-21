@@ -7,7 +7,6 @@ import os
 import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
-
 from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data, constrain_cluster_size, reduce_dim_and_standardize
 
 
@@ -29,6 +28,12 @@ if 'plot_par' not in ss:
         'min_clu_size' : 10,
         'max_clu_size' : 100,
         }
+    
+if 'init_message' not in ss:
+    st.text('On startup UMAP is computed, this can take a minute or two ')
+    ss['init_message'] = "available"
+
+
 
 # define paths 
 impath = "spectrogram_images"
@@ -38,15 +43,11 @@ path_meta_data = os.path.join("metadata/downloaded_data_meta.pkl")
 
 #--------------------------------
 # computational block 
-df_meta = load_meta_data(path = path_meta_data)
-# df_meta.shape
-feat_semi, filnam = load_reduced_features(path = path_features)
-# feat_semi.shape
-feat = reduce_dim_and_standardize(X = feat_semi, n_neighbors = ss['umap_params']["n_neighbors"], n_dims_red = ss['umap_params']["n_dims_red"])
-# feat.shape
-df = apply_dbscan_clustering(x = feat, labels = filnam, eps = ss['dbscan_params']["eps"], min_samples = ss['dbscan_params']["min_samples"])
-# df.shape
-selected_clusters = constrain_cluster_size(df_clusters = df, min_size = ss['plot_par']["min_clu_size"], max_size = ss['plot_par']["max_clu_size"])
+df_meta              = load_meta_data(path = path_meta_data)
+feat_semi, filnam    = load_reduced_features(path = path_features)
+feat, umap_exec_time = reduce_dim_and_standardize(X = feat_semi, n_neighbors = ss['umap_params']["n_neighbors"], n_dims_red = ss['umap_params']["n_dims_red"] )
+df, dbscan_exec_time = apply_dbscan_clustering(x = feat, labels = filnam, eps = ss['dbscan_params']["eps"], min_samples = ss['dbscan_params']["min_samples"])
+selected_clusters    = constrain_cluster_size(df_clusters = df, min_size = ss['plot_par']["min_clu_size"], max_size = ss['plot_par']["max_clu_size"])
 
 
 #--------------------------------
@@ -59,11 +60,13 @@ with a99:
     with st.form("my_form_0"):
         c00, c02 = st.columns([0.4, 0.2])
         with c00:
-            ss['umap_params']["n_dims_red"]  = st.slider(label = "UMAP target dim",  min_value=2, max_value=128, value=ss['umap_params']["n_dims_red"],  step=2,)
+            # ss['umap_params']["n_dims_red"]  =        st.slider(label = "UMAP target dim",  min_value=2, max_value=128,  value = ss['umap_params']["n_dims_red"],  step=2,)
+            ss['umap_params']["n_dims_red"]  = st.select_slider(label = "UMAP target dim", options=[2,4,8,16,32,64,128], value = ss['umap_params']["n_dims_red"],)
             ss['umap_params']["n_neighbors"] = st.slider(label = "UMAP n_neighbors", min_value=2, max_value=100, value=ss['umap_params']["n_neighbors"], step=1,)
         with c02:
-            submitted_0 = st.form_submit_button("Trigger UMAP (ultra slow!)")
-            # st.text('ultra slow!')
+            submitted_0 = st.form_submit_button("Trigger UMAP", type = "primary")
+            st.text('This can take a few minutes on first run for any set of params')
+            st.text('Exec ' + str(umap_exec_time) + ' sec')
         if submitted_0:
             st.rerun()
 
@@ -75,7 +78,9 @@ with a00:
             ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.01,)
             ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=2, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
         with c02:
-            submitted_1 = st.form_submit_button("Trigger DBSCAN (slow!)")
+            submitted_1 = st.form_submit_button("Trigger DBSCAN", type = "primary")
+            st.text('This can take several seconds on first run for any set of params')
+            st.text('Exec ' + str(dbscan_exec_time) + ' sec')
         if submitted_1:
             st.rerun()
 
@@ -89,10 +94,12 @@ with a01:
                 min_value=1, max_value=200, 
                 value = (ss['plot_par']["min_clu_size"], ss['plot_par']["max_clu_size"]) ,# (10, 200), 
                 step = 1,)
+            # aaa = st.slider(label = "aaaa", min_value=2, max_value=100, value=5, step=1, disabled = True)
             st.text('Nb clusters: ' + str(len(selected_clusters)))
-            st.text('')
+            # st.text('')
+            st.subheader('')
         with c11:
-            submitted_2 = st.form_submit_button("Submit")
+            submitted_2 = st.form_submit_button("Submit", type = "primary")
         if submitted_2:
             st.rerun()
             

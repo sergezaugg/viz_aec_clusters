@@ -7,12 +7,6 @@
 import streamlit as st
 from streamlit import session_state as ss
 
-# stuff shared across pages 
-if 'colors_1' not in ss:
-    ss['colors_1'] = ['#0000ff']
-if 'colors_2' not in ss:
-    ss['colors_2'] = ['#0055ff', '#0077dd', '#0099bb']
-
 st.set_page_config(layout="wide")
 
 p01 = st.Page("st_page_01.py", title="Interactive")
@@ -39,10 +33,3 @@ with st.sidebar:
     st.markdown(''':red[LINKS]''')
     st.page_link("https://xeno-canto.org/", label=":gray[xeno-canto]")
     st.page_link("https://github.com/sergezaugg/xeno_canto_organizer", label=":gray[xeno-canto organizer]")
-
-
-
-
-
-
-
