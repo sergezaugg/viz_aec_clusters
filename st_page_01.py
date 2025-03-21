@@ -1,6 +1,6 @@
 #--------------------             
 # Author : Serge Zaugg
-# Description : Create datasets, train, assess performance and feature importance
+# Description : main interactive streamlit page
 #--------------------
 
 import os
@@ -13,20 +13,20 @@ from utils import apply_dbscan_clustering, load_reduced_features, load_meta_data
 # initialize session state 
 if 'dbscan_params' not in ss:
     ss['dbscan_params'] = {
-        'eps' : 0.30,
+        'eps' : 0.25,
         'min_samples' : 10,
         }
 
 if 'umap_params' not in ss:
     ss['umap_params'] = {
         'n_dims_red' : 32,
-        'n_neighbors' : 10,
+        'n_neighbors' : 20,
         }
 
 if 'plot_par' not in ss:
     ss['plot_par'] = {
-        'min_clu_size' : 10,
-        'max_clu_size' : 100,
+        'min_clu_size' : 20,
+        'max_clu_size' : 50,
         }
     
 if 'init_message' not in ss:
@@ -76,7 +76,7 @@ with a00:
         c00, c02 = st.columns([0.4, 0.2])
         with c00:
             ss['dbscan_params']["eps"]         = st.slider(label = "DBSCAN eps", min_value=0.05, max_value=3.0, value=ss['dbscan_params']["eps"], step=0.01,)
-            ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=2, max_value=100, value=ss['dbscan_params']["min_samples"], step=1,)
+            ss['dbscan_params']["min_samples"] = st.slider(label = "DBSCAN min_samples", min_value=2, max_value=50, value=ss['dbscan_params']["min_samples"], step=1,)
         with c02:
             submitted_1 = st.form_submit_button("Trigger DBSCAN", type = "primary")
             st.text('This can take several seconds on first run for any set of params')
