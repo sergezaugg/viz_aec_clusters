@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")
 
 p01 = st.Page("st_page_01.py", title="Interactive")
 p02 = st.Page("st_page_02.py", title="Data info")
-p03 = st.Page("st_page_03.py", title="Methods")
+p03 = st.Page("st_page_03.py", title="Explanations")
 p04 = st.Page("st_page_04.py", title="Examples")
 p05 = st.Page("st_page_05.py", title="References")
 p06 = st.Page("st_page_06.py", title="Changes")

@@ -19,16 +19,16 @@ with c00:
         st.page_link("https://xeno-canto.org/", label=":gray[Link to xeno-canto web]")
         # st.divider()
 
-        # c0, c1, c2 = st.columns([0.5, 0.3,0.3])
-        # with c0:
-        #     st.subheader("Licences")
-        #     st.dataframe(df_meta['lic'].value_counts())
-        # with c1:
-        #     st.subheader("Countries")
-        #     st.dataframe(df_meta['cnt'].value_counts())
-        # with c2:
-        #     st.subheader("Sampling rates")
-        #     st.dataframe(df_meta['smp'].value_counts())
+        c0, c1, c2 = st.columns([0.3, 0.3, 0.3])
+        with c0:
+            st.subheader("File duration")
+            st.dataframe(df_meta['length'].value_counts())
+        with c1:
+            st.subheader("Countries")
+            st.dataframe(df_meta['cnt'].value_counts())
+        with c2:
+            st.subheader("Sampling rates")
+            st.dataframe(df_meta['smp'].value_counts())
 
 
             
