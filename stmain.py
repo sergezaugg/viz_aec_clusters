@@ -23,7 +23,7 @@ pg.run()
 with st.sidebar:
 
     st.header(''':red[**CLUSTERING UNSELECTED BIO-ACOUSTIC RECORDINGS**]''')
-    st.markdown(''':red[**under development**]''')
+    st.markdown(''':red[**Alpha - under development**]''')
     st.markdown(''' 
         Spectrogram clusters obtained via auto-encoders, dimensionality reduction and unsupervised clustering.
         This page only features dim reduction and clustering.
